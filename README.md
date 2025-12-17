@@ -1,1 +1,39 @@
 # Metalstar0.github.io
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Self-Hosted Site</title>
+    <style>
+        canvas { border: 2px solid #333; background: #eee; display: block; margin: 20px auto; }
+        body { text-align: center; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Site</h1>
+    <p>Use your arrow keys to move the square!</p>
+
+    <canvas id="gameCanvas" width="400" height="200"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let x = 50, y = 50;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear screen
+            ctx.fillStyle = "red";
+            ctx.fillRect(x, y, 30, 30); // Draw square
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if(e.key === "ArrowRight") x += 10;
+            if(e.key === "ArrowLeft") x -= 10;
+            if(e.key === "ArrowUp") y -= 10;
+            if(e.key === "ArrowDown") y += 10;
+        });
+
+        draw();
+    </script>
+</body>
+</html>

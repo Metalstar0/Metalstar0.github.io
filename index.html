@@ -120,12 +120,20 @@
             { title: "Girls Just Want to Have Fun - Bladee, Ecco2k", file: "music/song6.mp3" },
         ];
 
-        let trackIndex = 0;
+        let trackIndex = Math.floor(Math.random() * playlist.length);
 
         function loadTrack(index) {
             const track = playlist[index];
             audio.src = track.file;
             titleDisplay.innerText = track.title;
+        }
+
+        function startSite() {
+            overlay.style.display = 'none';
+            loadTrack(trackIndex);
+            audio.play();
+            playBtn.innerText = "PAUSE";
+            playBtn.style.color = "#00ffcc";
         }
 
         function togglePlay() {

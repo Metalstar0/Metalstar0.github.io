@@ -2,14 +2,157 @@
 <html>
 <head>
     <title>Metallic Madness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
-        canvas { border: 2px solid #333; background: #eee; display: block; margin: 20px auto; }
-        body { background-color: black; color: white;font-family: sans-serif; text-align: center; }
+        body { 
+            background-color: #0d0d0d; 
+            color: white; 
+            font-family: 'Segoe UI', sans-serif; 
+            text-align: center; 
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h1 { 
+            font-family: 'Orbitron', sans-serif; 
+            letter-spacing: 4px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+
+        /* mus */
+        .player-container {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            width: 320px;
+            margin: 30px auto;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #song-title {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls button {
+            background: #222;
+            color: white;
+            border: 1px solid #444;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        .controls button:hover {
+            border-color: #00ffcc;
+            background: #2a2a2a;
+        }
+
+        .volume-slider {
+            width: 100%;
+            margin-top: 20px;
+            accent-color: #00ffcc;
+        }
+
+        /* placehold */
+        .unity-container {
+            width: 90%;
+            max-width: 960px;
+            height: 540px;
+            background: #111;
+            margin: 40px auto;
+            border: 3px solid #333;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .unity-label {
+            color: #444;
+            font-family: 'Orbitron', sans-serif;
+        }
     </style>
 </head>
 <body>
+
     <h1>Welcome</h1>
-    <p>Testing out things will update very soon so stay tuned</p>
+    <p>Testing out things will update very soon so stay tuned.</p>
+
+    <div class="player-container">
+        <div id="song-title">Music Loading...</div>
+        <audio id="main-audio"></audio>
+        
+        <div class="controls">
+            <button onclick="changeTrack(-1)">◀◀</button>
+            <button id="play-btn" onclick="togglePlay()">PLAY</button>
+            <button onclick="changeTrack(1)">▶▶</button>
+        </div>
+
+        <input type="range" class="volume-slider" id="volume" min="0" max="1" step="0.01" value="0.5" oninput="updateVolume()">
+        <div style="font-size: 10px; color: #555; margin-top: 5px;">SYSTEM VOLUME</div>
+    </div>
+
+    <div class="unity-container" id="unity-space">
+        <div class="unity-label">[ UNITY 3D ROOM ATTACHMENT POINT ]</div>
+        </div>
+
+    <script>
+        const audio = document.getElementById('main-audio');
+        const playBtn = document.getElementById('play-btn');
+        const titleDisplay = document.getElementById('song-title');
+        const volumeSlider = document.getElementById('volume');
+        
+        const playlist = [
+            { title: "starjump - julie", file: "music/song1.mp3" },
+            { title: "Victim - Bladee, Thaiboy Digital, Ecco2k", file: "music/song2.mp3" },
+            { title: "Bad Vibrations - The Black Angels", file: "music/song3.mp3" }
+            { title: "AND I'M GONE - femtanyl", file: "music/song4.mp3" }
+            { title: "Peroxide - Ecoo2k", file: "music/song5.mp3" }
+            { title: "Girls Just Want to Have Fun - Bladee, Ecco2k", file: "music/song6.mp3" }
+        ];
+
+        let trackIndex = 0;
+
+        function loadTrack(index) {
+            const track = playlist[index];
+            audio.src = track.file;
+            titleDisplay.innerText = track.title;
+        }
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerText = "PAUSE";
+                playBtn.style.color = "#00ffcc";
+            } else {
+                audio.pause();
+                playBtn.innerText = "PLAY";
+                playBtn.style.color = "white";
+            }
+        }
+
+        function changeTrack(direction) {
+            trackIndex = (trackIndex + direction + playlist.length) % playlist.length;
+            loadTrack(trackIndex);
+            audio.play();
+            playBtn.innerText = "PAUSE";
+        }
+
+        function updateVolume() {
+            audio.volume = volumeSlider.value;
+        }
+        loadTrack(trackIndex);
     </script>
+
 </body>
 </html>
